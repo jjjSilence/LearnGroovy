@@ -95,13 +95,30 @@ def scriptClosure = {
 scriptClosure.call()
 
 //去除Person中的static
-def person = new Person()
-person.classClosure.call()
-person.say()
+def bean = new Bean()
+bean.classClosure.call()
+bean.say()
 
 //添加Person中的static
-//Person.classClosure.call()
-//Person.say()
+//Bean.classClosure.call()
+//Bean.say()
+
+class Bean {
+    def classClosure = {
+        println "classClosure this：" + this //闭包定义处的类
+        println "classClosure owner：" + owner //代表闭包定义处的类或对象
+        println "classClosure delegate：" + delegate //任意对象，默认值与owner一致
+    }
+
+    def say() {
+        def methodClosure = {
+            println "methodClosure this：" + this //闭包定义处的类
+            println "methodClosure this：" + owner //代表闭包定义处的类或对象
+            println "methodClosure this：" + delegate //任意对象，默认值与owner一致
+        }
+        methodClosure.call()
+    }
+}
 
 def nestClosure = {
     def innerClosure = {
